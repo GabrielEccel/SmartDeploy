@@ -512,6 +512,96 @@ jobs:
               fs.writeFileSync(file, render(doc));
               console.log("Flow " + name + " will be deployed as " + status);
             }
+          } else if (mode === "flownames" || mode === "flowdelete") {
+            const [dir, versionsFile] = args;
+            const DELETIONS = ["destructiveChangesPost.xml", "destructiveChanges.xml"];
+            const flows = new Set();
+            for (const name of DELETIONS) {
+              const file = path.join(dir, name);
+              if (!fs.existsSync(file)) { continue; }
+              for (const m of members(fs.readFileSync(file, "utf8"))) {
+                if (m.type === "Flow" && /^[A-Za-z0-9_]+$/.test(decode(m.name))) { flows.add(decode(m.name)); }
+              }
+            }
+            if (mode === "flownames") {
+              console.log([...flows].map((f) => A + f + A).join(","));
+              process.exit(0);
+            }
+            if (flows.size === 0) { process.exit(0); }
+            const versions = new Map();
+            try {
+              const rows = (JSON.parse(fs.readFileSync(versionsFile, "utf8")).result || {}).records || [];
+              for (const row of rows) {
+                const flow = row.Definition && row.Definition.DeveloperName;
+                if (!flow) { continue; }
+                if (!versions.has(flow)) { versions.set(flow, []); }
+                versions.get(flow).push(row.VersionNumber);
+              }
+            } catch (e) {
+              console.log("::warning::The flow versions in the target could not be listed, so the flows are deleted by name: " + e.message);
+            }
+            for (const name of DELETIONS) {
+              const file = path.join(dir, name);
+              if (!fs.existsSync(file)) { continue; }
+              const text = fs.readFileSync(file, "utf8");
+              const list = [];
+              for (const m of members(text)) {
+                const known = m.type === "Flow" ? versions.get(decode(m.name)) : null;
+                if (!known || known.length === 0) { list.push(m); continue; }
+                for (const n of known) { list.push({ type: "Flow", name: m.name + "-" + n }); }
+                console.log("Flow " + decode(m.name) + " is deleted as its " + known.length + " version(s)");
+              }
+              writeManifest(file, list, (/<version>([^<]*)<\/version>/.exec(text) || [])[1]);
+            }
+            for (const flow of [...flows]) { if (!versions.has(flow)) { flows.delete(flow); } }
+            if (flows.size === 0) { process.exit(0); }
+            const manifestFile = path.join(dir, "package.xml");
+            const manifest = fs.existsSync(manifestFile) ? fs.readFileSync(manifestFile, "utf8") : "";
+            const version = (/<version>([^<]*)<\/version>/.exec(manifest) || [])[1] || "67.0";
+            const kept = manifest ? members(manifest) : [];
+            fs.mkdirSync(path.join(dir, "flowDefinitions"), { recursive: true });
+            for (const flow of flows) {
+              fs.writeFileSync(path.join(dir, "flowDefinitions", flow + ".flowDefinition"),
+                "<?xml version=" + Q + "1.0" + Q + " encoding=" + Q + "UTF-8" + Q + "?>\n<FlowDefinition xmlns=" + Q + NS + Q + ">\n" +
+                "    <activeVersionNumber>0</activeVersionNumber>\n</FlowDefinition>\n");
+              if (!kept.some((k) => k.type === "FlowDefinition" && k.name === flow)) { kept.push({ type: "FlowDefinition", name: flow }); }
+              console.log("Flow " + flow + " is deactivated before it is deleted");
+            }
+            writeManifest(manifestFile, kept, version);
+          } else if (mode === "packageversions") {
+            const [dir, file] = args;
+            let installed = null;
+            try { installed = [].concat(JSON.parse(fs.readFileSync(file, "utf8")).result || []); } catch (e) { installed = null; }
+            if (!installed) {
+              console.log("::warning::The packages installed in the target could not be listed, so package version references were left as the source org wrote them.");
+              process.exit(0);
+            }
+            const have = new Map();
+            for (const p of installed) {
+              if (p.SubscriberPackageNamespace) { have.set(p.SubscriberPackageNamespace, String(p.SubscriberPackageVersionNumber || "").split(".")); }
+            }
+            const block = /[ \t]*<packageVersions>[\s\S]*?<\/packageVersions>\r?\n?/g;
+            const walk = (d) => {
+              for (const entry of fs.readdirSync(d, { withFileTypes: true })) {
+                const p = path.join(d, entry.name);
+                if (entry.isDirectory()) { walk(p); continue; }
+                if (!entry.name.endsWith("-meta.xml")) { continue; }
+                const before = fs.readFileSync(p, "utf8");
+                if (!before.includes("<packageVersions>")) { continue; }
+                const after = before.replace(block, (found) => {
+                  const ns = (/<namespace>([^<]*)<\/namespace>/.exec(found) || [])[1];
+                  const at = have.get(ns);
+                  if (!at || at.length < 2) {
+                    console.log(entry.name + ": dropped the reference to package " + ns + ", which the target does not have");
+                    return "";
+                  }
+                  return found.replace(/<majorNumber>[^<]*<\/majorNumber>/, "<majorNumber>" + at[0] + "</majorNumber>")
+                    .replace(/<minorNumber>[^<]*<\/minorNumber>/, "<minorNumber>" + at[1] + "</minorNumber>");
+                });
+                if (after !== before) { fs.writeFileSync(p, after); console.log(entry.name + ": package versions set to what the target has"); }
+              }
+            };
+            if (fs.existsSync(dir)) { walk(dir); }
           } else if (mode === "absorb") {
             const [from, into] = args;
             const walk = (rel) => {
@@ -666,6 +756,8 @@ jobs:
             if [ "$FLOW_STATUS" = "Active" ] || [ "$FLOW_STATUS" = "Draft" ]; then
               node "$RUNNER_TEMP/sd-xml.js" flowstatus "$DEPLOY_DIR" "$FLOW_STATUS"
             fi
+            sf package installed list --target-org target --json > "$WORK/installed.json" 2> /dev/null || true
+            node "$RUNNER_TEMP/sd-xml.js" packageversions "$DEPLOY_DIR" "$WORK/installed.json"
 
             FAIL_PRIORITY=$(jq -r '.analysis.failPriority // 0' "$RUN_FILE" 2>/dev/null)
             [[ "$FAIL_PRIORITY" =~ ^[0-5]$ ]] || FAIL_PRIORITY=0
@@ -696,6 +788,15 @@ jobs:
             if [ -f "$FOLDER/destructiveChangesPre.xml" ] && grep -q '<members>' "$FOLDER/destructiveChangesPre.xml"; then
               cp "$FOLDER/destructiveChangesPre.xml" "$DEPLOY_DIR/destructiveChangesPre.xml"
             fi
+            FLOWS=$(node "$RUNNER_TEMP/sd-xml.js" flownames "$DEPLOY_DIR")
+            if [ -n "$FLOWS" ]; then
+              sf data query --use-tooling-api --target-org target --json --query "SELECT Definition.DeveloperName, VersionNumber FROM Flow WHERE Definition.DeveloperName IN ($FLOWS)" > "$WORK/flows.json" 2> /dev/null || true
+              node "$RUNNER_TEMP/sd-xml.js" flowdelete "$DEPLOY_DIR" "$WORK/flows.json"
+            fi
+            WARNINGS=""
+            if ls "$DEPLOY_DIR"/destructiveChanges*.xml > /dev/null 2>&1; then
+              WARNINGS="--ignore-warnings"
+            fi
             DRY_RUN=""
             if [ "$VALIDATE_ONLY" = "true" ]; then
               DRY_RUN="--dry-run"
@@ -715,7 +816,7 @@ jobs:
               [ ${#TEST_ARGS[@]} -gt 0 ] || fail "The step runs specified tests, but $TESTS_FILE names none."
               echo "Running $(( ${#TEST_ARGS[@]} / 2 )) specified test class(es)"
             fi
-            sf project deploy start --metadata-dir "$DEPLOY_DIR" $DRY_RUN --target-org target --test-level "$TEST_LEVEL" "${TEST_ARGS[@]}" --wait 60 --json > "$RESULT"
+            sf project deploy start --metadata-dir "$DEPLOY_DIR" $DRY_RUN $WARNINGS --target-org target --test-level "$TEST_LEVEL" "${TEST_ARGS[@]}" --wait 60 --json > "$RESULT"
             CODE=$?
           fi
           echo "$CODE" > "$CODE_FILE"
