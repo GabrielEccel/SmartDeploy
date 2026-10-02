@@ -1,0 +1,5 @@
+{
+  "status": 1,
+  "name": "SmartDeployError",
+  "message": "Could not convert the metadata to source format: Parsing --root-dir \n\tNo directory found at /home/runner/work/_temp/smart-deploy/snapshot/pkg\nSee more help with --help"
+}
