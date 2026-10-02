@@ -1,5 +1,5 @@
 {
   "status": 1,
   "name": "SmartDeployError",
-  "message": "The hub did not hand over the target credential (HTTP 500). "
+  "message": "The hub did not hand over the target credential (HTTP 503). Could not reach \"Partial\" for a token: Field SmartCloudPartial.ClientId does not exist. Check spelling."
 }
