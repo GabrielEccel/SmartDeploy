@@ -1,5 +1,5 @@
 {
   "status": 1,
   "name": "SmartDeployError",
-  "message": "The target credential is kept by the Smart Deploy hub, and the runner has no SD_HUB_AUTH_URL secret to reach it. Create a repository secret of that name holding the hub org sfdx auth URL."
+  "message": "The hub did not hand over the target credential (HTTP 500). "
 }
