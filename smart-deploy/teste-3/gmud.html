@@ -98,7 +98,8 @@
 
     <div class="section">
       <h2><span class="n">2</span>Justificativa</h2>
-      <p class="note"><i>Por que a mudança é necessária, que problema resolve ou que ganho traz, e o que acontece se ela não for feita.</i></p>
+      <p>A release publica um único componente novo, o campo personalizado <code>Account.SmartDeploy__c</code>, no objeto Account. O manifesto não traz o propósito de negócio do campo; pelo projeto (SumUp Test) e pelo nome da release (Teste 3), a mudança funciona como teste da rota <b>SumUp Promotion</b> do Smart Deploy, exercitando a promoção de um componente e do passo posterior de liberação de acesso.</p>
+      <p>Se a mudança não for feita, o campo não existirá nos ambientes seguintes da rota e o teste de promoção não será concluído. Nenhum processo existente depende dela.</p>
     </div>
 
     <div class="section">
@@ -121,7 +122,12 @@
 
     <div class="section">
       <h2><span class="n">5</span>Análise de impacto</h2>
-      <p class="note"><i>Processos, áreas, integrações e usuários afetados, e dependências com outras mudanças em andamento.</i></p>
+      <ul>
+        <li><b>Escopo:</b> mudança aditiva, com 1 componente (<code>CustomField</code>) e nenhuma exclusão. Nenhum componente existente é alterado.</li>
+        <li><b>Usuários:</b> o passo pós-deploy "Grant field access to all profiles" dá acesso ao campo a todos os perfis, portanto todos os usuários com acesso ao objeto Account poderão ver o campo onde ele for exibido. O manifesto não inclui layouts de página, então o campo não aparece nas telas até ser adicionado a um layout.</li>
+        <li><b>Processos e integrações:</b> o manifesto não contém fluxos, triggers, validações, classes Apex nem relatórios que usem o campo. Integrações que leem todos os campos de Account podem passar a receber o novo campo; recomenda-se confirmar com os responsáveis.</li>
+        <li><b>Dependências:</b> nenhuma outra mudança em andamento é visível no manifesto; confirmar com o responsável técnico antes da janela.</li>
+      </ul>
     </div>
 
     <div class="section">
@@ -146,15 +152,21 @@
 
     <div class="section">
       <h2><span class="n">9</span>Plano de retorno</h2>
-      <p class="note"><i>Critério para acionar o retorno, passos para desfazer a mudança, tempo estimado e quem decide.</i></p>
+      <p><b>Critério de acionamento:</b> falha do deploy em qualquer ambiente da rota, ou efeito indesejado causado pelo novo campo ou pelo acesso concedido aos perfis (por exemplo, erro em integração ou em processo que lê Account).</p>
+      <ol>
+        <li>Se o deploy falhar, a implantação é revertida pelo próprio Salesforce e nenhuma ação é necessária no ambiente; corrigir a causa e repetir.</li>
+        <li>Se o deploy já tiver sido concluído, remover o acesso ao campo (permissões de campo dos perfis) para esconder o campo dos usuários.</li>
+        <li>Se necessário, excluir <code>Account.SmartDeploy__c</code> por um deploy de destructive changes. Como o campo é novo, a exclusão não afeta componentes existentes, mas apaga os dados que tiverem sido gravados nele; no Salesforce o campo excluído fica na lixeira por até 15 dias e pode ser restaurado.</li>
+      </ol>
+      <p><b>Tempo estimado:</b> cerca de 30 minutos. <b>Decisão:</b> responsável técnico, com ciência do gestor da área.</p>
     </div>
 
     <div class="section">
       <h2><span class="n">10</span>Janela e comunicação</h2>
       <div class="window">
-        <div class="class-box"><div class="label">Data e horário</div><div class="value">____</div></div>
-        <div class="class-box"><div class="label">Duração estimada</div><div class="value">____</div></div>
-        <div class="class-box"><div class="label">Quem avisar</div><div class="value">____</div></div>
+        <div class="class-box"><div class="label">Data e horário</div><div class="value">A definir pelo solicitante e aprovado pelo CAB</div></div>
+        <div class="class-box"><div class="label">Duração estimada</div><div class="value">Cerca de 30 minutos, sem indisponibilidade esperada</div></div>
+        <div class="class-box"><div class="label">Quem avisar</div><div class="value">Responsável técnico, gestor da área e administradores do Salesforce dos ambientes da rota SumUp Promotion</div></div>
       </div>
     </div>
 
