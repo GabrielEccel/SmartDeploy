@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>GMUD Release 1</title>
+<style>
+  body { margin: 0; background: #EEF2F7; color: #1E293B; font: 14px/1.6 "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif; }
+  .page { max-width: 880px; margin: 24px auto; background: #FFFFFF; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 10px rgba(15, 23, 42, .08); }
+
+  .cover { background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%); color: #F8FAFC; padding: 32px 40px 28px; }
+  .cover .kicker { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: #93C5FD; margin: 0 0 6px; }
+  .cover h1 { font-size: 30px; line-height: 1.15; margin: 0 0 14px; font-weight: 700; }
+  .cover .tags { display: flex; gap: 8px; flex-wrap: wrap; }
+  .cover .tag { font-size: 12px; font-weight: 600; background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .25); border-radius: 999px; padding: 2px 12px; }
+
+  .facts { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid #E2E8F0; }
+  .fact { padding: 14px 18px; border-right: 1px solid #E2E8F0; }
+  .fact:nth-child(4n) { border-right: 0; }
+  .fact:nth-child(n+5) { border-top: 1px solid #E2E8F0; }
+  .fact .label { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: #64748B; font-weight: 600; }
+  .fact .value { font-weight: 600; color: #0F172A; margin-top: 2px; }
+
+  .content { padding: 8px 40px 36px; }
+  .section { margin-top: 28px; }
+  .section h2 { display: flex; align-items: center; gap: 12px; font-size: 17px; color: #0F172A; margin: 0 0 12px; padding-bottom: 8px; border-bottom: 1px solid #E2E8F0; }
+  .section h2 .n { flex: 0 0 28px; height: 28px; border-radius: 50%; background: #2563EB; color: #FFFFFF; font-size: 13px; display: flex; align-items: center; justify-content: center; }
+  .section h3 { font-size: 14px; color: #1E3A8A; margin: 18px 0 6px; }
+  p { margin: 0 0 10px; }
+
+  .note { background: #EFF6FF; border-left: 4px solid #60A5FA; border-radius: 0 8px 8px 0; padding: 10px 14px; color: #334155; }
+  .note i { font-style: normal; }
+  .alert { background: #FEF2F2; border-left: 4px solid #EF4444; border-radius: 0 8px 8px 0; padding: 10px 14px; color: #7F1D1D; }
+
+  .classes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .class-box { border: 1px solid #E2E8F0; border-radius: 10px; padding: 10px 14px; }
+  .class-box .label { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: #64748B; font-weight: 600; }
+  .class-box .value { font-weight: 600; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 6px 0 14px; }
+  th { text-align: left; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: #64748B; background: #F1F5F9; padding: 8px 10px; border-bottom: 1px solid #E2E8F0; }
+  td { padding: 7px 10px; border-bottom: 1px solid #F1F5F9; vertical-align: top; }
+  tbody tr:nth-child(even) td { background: #FAFBFC; }
+  code { font: 12px/1.4 Consolas, "SFMono-Regular", Menlo, monospace; background: #F1F5F9; color: #334155; border-radius: 4px; padding: 1px 6px; }
+  .sd-tag { display: inline-block; font-size: 11px; font-weight: 600; border-radius: 999px; padding: 1px 9px; background: #F1F5F9; color: #334155; }
+  .sd-tag-added { background: #DCFCE7; color: #166534; }
+  .sd-tag-changed { background: #FEF3C7; color: #92400E; }
+  .sd-tag-removed { background: #FEE2E2; color: #991B1B; }
+
+  ol, ul { margin: 0 0 12px; padding-left: 22px; }
+  li { margin: 4px 0; }
+  ol > li::marker { color: #2563EB; font-weight: 700; }
+
+  .window { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .signatures { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px 32px; margin-top: 8px; }
+  .signature { border-top: 1px solid #94A3B8; padding-top: 6px; }
+  .signature .role { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: #64748B; font-weight: 600; }
+  .signature .who { font-weight: 600; min-height: 20px; }
+
+  .footer { background: #F8FAFC; border-top: 1px solid #E2E8F0; padding: 12px 40px; font-size: 11px; color: #64748B; display: flex; justify-content: space-between; }
+
+  @media print {
+    body { background: #FFFFFF; }
+    .page { box-shadow: none; margin: 0; border-radius: 0; max-width: none; }
+    .section { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="cover">
+    <p class="kicker">Registro de mudança · GMUD</p>
+    <h1>Release 1</h1>
+    <div class="tags">
+      <span class="tag">Projeto SumUp Test</span>
+      <span class="tag">Rota SumUp Promotion</span>
+      <span class="tag">1 componentes</span>
+    </div>
+  </div>
+
+  <div class="facts">
+    <div class="fact"><div class="label">Solicitante</div><div class="value">Gabriel Eccel</div></div>
+    <div class="fact"><div class="label">Aberta em</div><div class="value">2026-10-05 10:16</div></div>
+    <div class="fact"><div class="label">Emitida em</div><div class="value">10/5/2026</div></div>
+    <div class="fact"><div class="label">Situação</div><div class="value">Completed</div></div>
+    <div class="fact"><div class="label">Projeto</div><div class="value">SumUp Test</div></div>
+    <div class="fact"><div class="label">Rota</div><div class="value">SumUp Promotion</div></div>
+    <div class="fact"><div class="label">Primeiro ambiente</div><div class="value">Partial</div></div>
+    <div class="fact"><div class="label">Componentes</div><div class="value">1</div></div>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <h2><span class="n">1</span>Resumo da mudança</h2>
+      <p>-</p>
+    </div>
+
+    <div class="section">
+      <h2><span class="n">2</span>Justificativa</h2>
+      <p class="note"><i>Por que a mudança é necessária, que problema resolve ou que ganho traz, e o que acontece se ela não for feita.</i></p>
+    </div>
+
+    <div class="section">
+      <h2><span class="n">3</span>Classificação</h2>
+      <div class="classes">
+        <div class="class-box"><div class="label">Tipo</div><div class="value">Normal / Padrão / Emergencial</div></div>
+        <div class="class-box"><div class="label">Risco</div><div class="value">Baixo / Médio / Alto</div></div>
+        <div class="class-box"><div class="label">Indisponibilidade</div><div class="value">Sim / Não</div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2><span class="n">4</span>Escopo técnico</h2>
+      <p>Tudo o que a release leva, com o que acontece com cada componente no ambiente:</p>
+      <table><thead><tr><th>Type</th><th>Component</th><th>Status</th></tr></thead><tbody><tr><td><code>CustomField</code></td><td>Account.SmartDeploy__c</td><td><span class="sd-tag sd-tag-added">Added</span></td></tr></tbody></table>
+      <h3>Exclusões</h3>
+      <p class="alert">Componentes removidos do ambiente. Revise com atenção: uma exclusão não volta com um novo deploy.</p>
+      <p>None.</p>
+    </div>
+
+    <div class="section">
+      <h2><span class="n">5</span>Análise de impacto</h2>
+      <p class="note"><i>Processos, áreas, integrações e usuários afetados, e dependências com outras mudanças em andamento.</i></p>
+    </div>
+
+    <div class="section">
+      <h2><span class="n">6</span>Riscos e mitigação</h2>
+      <p class="note"><i>O que pode dar errado, a probabilidade, o efeito e o que foi feito para reduzir cada risco.</i></p>
+    </div>
+
+    <div class="section">
+      <h2><span class="n">7</span>Plano de execução</h2>
+      <h3>Antes do deploy</h3>
+      <ol><li>Before deployment</li></ol>
+      <h3>Deploy</h3>
+      <p>Publicação automatizada pelo Smart Deploy, percorrendo a rota <b>SumUp Promotion</b> a partir de <b>Partial</b>.</p>
+      <h3>Depois do deploy</h3>
+      <ol><li>Grant field access to all profiles</li></ol>
+    </div>
+
+    <div class="section">
+      <h2><span class="n">8</span>Validação pós-implantação</h2>
+      <p class="note"><i>Testes e evidências que confirmam o sucesso da mudança, e quem os executa.</i></p>
+    </div>
+
+    <div class="section">
+      <h2><span class="n">9</span>Plano de retorno</h2>
+      <p class="note"><i>Critério para acionar o retorno, passos para desfazer a mudança, tempo estimado e quem decide.</i></p>
+    </div>
+
+    <div class="section">
+      <h2><span class="n">10</span>Janela e comunicação</h2>
+      <div class="window">
+        <div class="class-box"><div class="label">Data e horário</div><div class="value">____</div></div>
+        <div class="class-box"><div class="label">Duração estimada</div><div class="value">____</div></div>
+        <div class="class-box"><div class="label">Quem avisar</div><div class="value">____</div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2><span class="n">11</span>Aprovações</h2>
+      <div class="signatures">
+        <div class="signature"><div class="role">Solicitante</div><div class="who">Gabriel Eccel</div></div>
+        <div class="signature"><div class="role">Responsável técnico</div><div class="who"></div></div>
+        <div class="signature"><div class="role">Gestor da área</div><div class="who"></div></div>
+        <div class="signature"><div class="role">CAB</div><div class="who"></div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span>Gerado pelo Smart Deploy em 10/5/2026</span>
+    <span>Release 1</span>
+  </div>
+
+</div>
+</body>
+</html>
