@@ -98,7 +98,8 @@
 
     <div class="section">
       <h2><span class="n">2</span>Justificativa</h2>
-      <p class="note"><i>Por que a mudança é necessária, que problema resolve ou que ganho traz, e o que acontece se ela não for feita.</i></p>
+      <p>A release cria o campo personalizado <code>Account.SmartDeploy__c</code> no objeto Conta, necessário para disponibilizar essa informação no ambiente de destino na rota <b>SumUp Promotion</b>. Trata-se de uma mudança puramente aditiva, de um único componente, sem exclusões.</p>
+      <p>Sem a mudança, o campo continua inexistente nos ambientes seguintes da rota, e qualquer processo, relatório ou teste que dependa dele fica bloqueado ou divergente entre os ambientes.</p>
     </div>
 
     <div class="section">
@@ -121,7 +122,13 @@
 
     <div class="section">
       <h2><span class="n">5</span>Análise de impacto</h2>
-      <p class="note"><i>Processos, áreas, integrações e usuários afetados, e dependências com outras mudanças em andamento.</i></p>
+      <ul>
+        <li><b>Objeto afetado:</b> Conta (<code>Account</code>), com a inclusão de um novo campo; nenhum campo, regra ou código existente é alterado ou removido.</li>
+        <li><b>Usuários:</b> após o passo pós-deploy, todos os perfis passam a ter acesso ao campo, que fica visível nas telas e relatórios que o incluírem.</li>
+        <li><b>Integrações e automações:</b> o manifesto não inclui código, fluxos, layouts nem regras de validação, então não há alteração direta nesses itens. Integrações que leiam Conta por esquema dinâmico podem passar a enxergar o novo campo.</li>
+        <li><b>Dependências:</b> nenhuma identificada no manifesto; confirmar se há outra mudança em andamento sobre o objeto Conta.</li>
+        <li><b>Dados:</b> o campo é criado vazio nos registros existentes.</li>
+      </ul>
     </div>
 
     <div class="section">
@@ -146,15 +153,22 @@
 
     <div class="section">
       <h2><span class="n">9</span>Plano de retorno</h2>
-      <p class="note"><i>Critério para acionar o retorno, passos para desfazer a mudança, tempo estimado e quem decide.</i></p>
+      <p><b>Critério de acionamento:</b> falha no deploy, ou efeito inesperado em telas, relatórios ou integrações de Conta após a publicação.</p>
+      <ol>
+        <li>Se o deploy falhar, nada é aplicado no ambiente: corrigir a causa e republicar, sem necessidade de retorno.</li>
+        <li>Se o deploy for concluído e o retorno for necessário, remover o acesso ao campo dos perfis e excluir <code>Account.SmartDeploy__c</code> por uma mudança destrutiva (<code>destructiveChanges.xml</code>) ou manualmente em Configuração.</li>
+        <li>Antes de excluir, exportar os dados do campo, caso já tenham sido preenchidos, pois a exclusão envia o campo à lixeira e a perda dos valores é definitiva após o prazo de recuperação.</li>
+        <li>Remover o campo de qualquer layout, relatório ou automação que o referencie, se houver.</li>
+      </ol>
+      <p><b>Tempo estimado:</b> cerca de 15 minutos. <b>Decisão:</b> responsável técnico, com ciência do solicitante.</p>
     </div>
 
     <div class="section">
       <h2><span class="n">10</span>Janela e comunicação</h2>
       <div class="window">
-        <div class="class-box"><div class="label">Data e horário</div><div class="value">____</div></div>
-        <div class="class-box"><div class="label">Duração estimada</div><div class="value">____</div></div>
-        <div class="class-box"><div class="label">Quem avisar</div><div class="value">____</div></div>
+        <div class="class-box"><div class="label">Data e horário</div><div class="value">A definir pelo solicitante, preferencialmente fora do horário de pico</div></div>
+        <div class="class-box"><div class="label">Duração estimada</div><div class="value">Cerca de 15 minutos (deploy de 1 componente e concessão de acesso)</div></div>
+        <div class="class-box"><div class="label">Quem avisar</div><div class="value">Solicitante (Gabriel Eccel), administradores Salesforce e usuários de Conta</div></div>
       </div>
     </div>
 
