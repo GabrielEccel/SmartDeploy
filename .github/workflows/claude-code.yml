@@ -660,6 +660,7 @@ jobs:
           SD_HUB_AUTH_URL: ${{ secrets.SD_HUB_AUTH_URL }}
           SF_AUTH_ACCOUNT: ${{ secrets.SF_AUTH_ACCOUNT }}
           SF_AUTH_PARTIAL: ${{ secrets.SF_AUTH_PARTIAL }}
+          SF_AUTH_UAT: ${{ secrets.SF_AUTH_UAT }}
         run: |
           set +e
           mkdir -p "$FOLDER/deploy"
@@ -832,6 +833,7 @@ jobs:
           SD_HUB_AUTH_URL: ${{ secrets.SD_HUB_AUTH_URL }}
           SF_AUTH_ACCOUNT: ${{ secrets.SF_AUTH_ACCOUNT }}
           SF_AUTH_PARTIAL: ${{ secrets.SF_AUTH_PARTIAL }}
+          SF_AUTH_UAT: ${{ secrets.SF_AUTH_UAT }}
         run: |
           set +e
           mkdir -p "$FOLDER/deploy"
@@ -926,6 +928,7 @@ jobs:
           SD_HUB_AUTH_URL: ${{ secrets.SD_HUB_AUTH_URL }}
           SF_AUTH_ACCOUNT: ${{ secrets.SF_AUTH_ACCOUNT }}
           SF_AUTH_PARTIAL: ${{ secrets.SF_AUTH_PARTIAL }}
+          SF_AUTH_UAT: ${{ secrets.SF_AUTH_UAT }}
         run: |
           set +e
           mkdir -p "$FOLDER/deploy"
@@ -1024,6 +1027,7 @@ jobs:
           SD_HUB_AUTH_URL: ${{ secrets.SD_HUB_AUTH_URL }}
           SF_AUTH_ACCOUNT: ${{ secrets.SF_AUTH_ACCOUNT }}
           SF_AUTH_PARTIAL: ${{ secrets.SF_AUTH_PARTIAL }}
+          SF_AUTH_UAT: ${{ secrets.SF_AUTH_UAT }}
         run: |
           set +e
           mkdir -p "$FOLDER/deploy"
