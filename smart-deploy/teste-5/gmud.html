@@ -98,7 +98,8 @@
 
     <div class="section">
       <h2><span class="n">2</span>Justificativa</h2>
-      <p class="note"><i>Por que a mudança é necessária, que problema resolve ou que ganho traz, e o que acontece se ela não for feita.</i></p>
+      <p>A release introduz o novo campo customizado <code>Account.SmartDeploy__c</code> no objeto Account. O manifesto não registra a motivação de negócio; pelo conteúdo, a mudança disponibiliza esse campo no ambiente de destino e, no passo pós-deploy, libera o acesso a ele para todos os perfis.</p>
+      <p>Se a mudança não for feita, o campo não existirá no ambiente e qualquer processo, tela ou integração que dependa dele ficará sem onde registrar ou ler a informação. Como é uma adição pura, sem remoções, não há ganho ou perda para o que já existe.</p>
     </div>
 
     <div class="section">
@@ -121,7 +122,13 @@
 
     <div class="section">
       <h2><span class="n">5</span>Análise de impacto</h2>
-      <p class="note"><i>Processos, áreas, integrações e usuários afetados, e dependências com outras mudanças em andamento.</i></p>
+      <ul>
+        <li><b>Objeto afetado:</b> Account, com um único componente novo (<code>Account.SmartDeploy__c</code>); nenhum componente existente é alterado ou removido.</li>
+        <li><b>Usuários:</b> após o passo pós-deploy, todos os perfis passam a ter acesso ao campo. Ele só aparece em layouts, relatórios ou integrações que o incluírem; o manifesto não traz layouts nem outros metadados.</li>
+        <li><b>Dados e processos existentes:</b> sem impacto esperado. O campo é novo e os registros atuais ficam com ele vazio.</li>
+        <li><b>Integrações:</b> nenhuma identificada no manifesto. Confirmar com o responsável técnico se alguma integração mapeia campos de Account de forma dinâmica.</li>
+        <li><b>Dependências com outras mudanças:</b> nenhuma identificada no manifesto; verificar o calendário de mudanças em andamento no mesmo ambiente.</li>
+      </ul>
     </div>
 
     <div class="section">
@@ -146,15 +153,23 @@
 
     <div class="section">
       <h2><span class="n">9</span>Plano de retorno</h2>
-      <p class="note"><i>Critério para acionar o retorno, passos para desfazer a mudança, tempo estimado e quem decide.</i></p>
+      <p><b>Critério de acionamento:</b> falha no deploy ou no passo pós-deploy, ou efeito inesperado em Account observado após a publicação.</p>
+      <ol>
+        <li>Se o deploy falhar, nada é aplicado e não há o que desfazer; corrigir e republicar.</li>
+        <li>Revogar o acesso ao campo concedido aos perfis no passo pós-deploy.</li>
+        <li>Remover <code>Account.SmartDeploy__c</code> do ambiente por deploy de destructive changes. Por ser um campo novo, nenhum estado anterior precisa ser restaurado.</li>
+        <li>Atenção: ao excluir o campo, os valores já gravados nele são perdidos (o campo fica na lixeira por tempo limitado). Se houver dados relevantes, exportá-los antes.</li>
+        <li>Remover o campo de layouts, relatórios ou integrações que o tenham passado a usar, antes da exclusão.</li>
+      </ol>
+      <p><b>Tempo estimado:</b> cerca de 15 a 30 minutos. <b>Quem decide:</b> o responsável técnico, em conjunto com o solicitante, Gabriel Eccel.</p>
     </div>
 
     <div class="section">
       <h2><span class="n">10</span>Janela e comunicação</h2>
       <div class="window">
-        <div class="class-box"><div class="label">Data e horário</div><div class="value">____</div></div>
-        <div class="class-box"><div class="label">Duração estimada</div><div class="value">____</div></div>
-        <div class="class-box"><div class="label">Quem avisar</div><div class="value">____</div></div>
+        <div class="class-box"><div class="label">Data e horário</div><div class="value">A definir com o CAB, preferencialmente fora do horário comercial</div></div>
+        <div class="class-box"><div class="label">Duração estimada</div><div class="value">Cerca de 30 minutos (deploy do campo e liberação de acesso)</div></div>
+        <div class="class-box"><div class="label">Quem avisar</div><div class="value">Gabriel Eccel (solicitante), responsável técnico, gestor da área e usuários de Account</div></div>
       </div>
     </div>
 
