@@ -98,7 +98,7 @@
 
     <div class="section">
       <h2><span class="n">2</span>Justificativa</h2>
-      <p class="note"><i>Por que a mudança é necessária, que problema resolve ou que ganho traz, e o que acontece se ela não for feita.</i></p>
+      <p>A release cria o campo personalizado <code>Account.SmartDeploy__c</code> no objeto Account, necessário para o projeto <b>SumUp Test</b> e para validar a rota <b>SumUp Promotion</b> a partir de <b>Partial</b>. Sem a mudança, o campo não existe nos ambientes seguintes da rota e qualquer processo, relatório ou integração que dependa dele fica bloqueado.</p>
     </div>
 
     <div class="section">
@@ -121,7 +121,12 @@
 
     <div class="section">
       <h2><span class="n">5</span>Análise de impacto</h2>
-      <p class="note"><i>Processos, áreas, integrações e usuários afetados, e dependências com outras mudanças em andamento.</i></p>
+      <ul>
+        <li><b>Objeto afetado:</b> Account, com a adição de um único campo personalizado (<code>CustomField</code>). Nenhum componente é alterado ou excluído.</li>
+        <li><b>Usuários:</b> após o passo pós-deploy "Grant field access to all profiles", o campo fica visível para todos os perfis; usuários que trabalham com Account passarão a vê-lo em layouts e relatórios, conforme a configuração de cada um.</li>
+        <li><b>Processos e integrações:</b> o campo é novo e não é preenchido por nenhum componente desta release, então não há processo existente alterado. Integrações que escrevem em Account não são afetadas, salvo se passarem a usar o campo.</li>
+        <li><b>Dependências:</b> nenhuma identificada no manifesto (apenas 1 componente, sem automações, classes ou layouts). Confirmar com a equipe se há outra mudança em andamento no objeto Account.</li>
+      </ul>
     </div>
 
     <div class="section">
@@ -146,15 +151,21 @@
 
     <div class="section">
       <h2><span class="n">9</span>Plano de retorno</h2>
-      <p class="note"><i>Critério para acionar o retorno, passos para desfazer a mudança, tempo estimado e quem decide.</i></p>
+      <p><b>Critério de acionamento:</b> falha no deploy, ou comportamento inesperado em Account após a publicação (erros em telas, relatórios ou integrações ligados ao objeto).</p>
+      <ol>
+        <li>Remover o acesso ao campo concedido aos perfis (passo pós-deploy executado ao contrário).</li>
+        <li>Excluir o campo <code>Account.SmartDeploy__c</code> do ambiente, por destructiveChanges ou manualmente em Setup. Como o campo é novo, a exclusão não perde dados existentes; ao excluir, os valores eventualmente já gravados vão para a lixeira do campo por 15 dias.</li>
+        <li>Confirmar que o campo não aparece mais em Account e que o objeto funciona normalmente.</li>
+      </ol>
+      <p><b>Tempo estimado:</b> cerca de 15 minutos. <b>Quem decide:</b> o responsável técnico, em conjunto com o solicitante, Gabriel Eccel.</p>
     </div>
 
     <div class="section">
       <h2><span class="n">10</span>Janela e comunicação</h2>
       <div class="window">
-        <div class="class-box"><div class="label">Data e horário</div><div class="value">____</div></div>
-        <div class="class-box"><div class="label">Duração estimada</div><div class="value">____</div></div>
-        <div class="class-box"><div class="label">Quem avisar</div><div class="value">____</div></div>
+        <div class="class-box"><div class="label">Data e horário</div><div class="value">A definir pelo CAB, fora do horário comercial</div></div>
+        <div class="class-box"><div class="label">Duração estimada</div><div class="value">15 minutos, sem indisponibilidade</div></div>
+        <div class="class-box"><div class="label">Quem avisar</div><div class="value">Solicitante (Gabriel Eccel), administradores Salesforce e usuários de Account</div></div>
       </div>
     </div>
 
