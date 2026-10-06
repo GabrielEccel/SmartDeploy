@@ -81,8 +81,8 @@
   <div class="facts">
     <div class="fact"><div class="label">Solicitante</div><div class="value">Gabriel Eccel</div></div>
     <div class="fact"><div class="label">Aberta em</div><div class="value">2026-10-05 13:40</div></div>
-    <div class="fact"><div class="label">Emitida em</div><div class="value">10/5/2026</div></div>
-    <div class="fact"><div class="label">Situação</div><div class="value">Draft</div></div>
+    <div class="fact"><div class="label">Emitida em</div><div class="value">10/6/2026</div></div>
+    <div class="fact"><div class="label">Situação</div><div class="value">Completed</div></div>
     <div class="fact"><div class="label">Projeto</div><div class="value">SumUp &lt;-&gt; Visum</div></div>
     <div class="fact"><div class="label">Rota</div><div class="value">SumUp Promotion</div></div>
     <div class="fact"><div class="label">Primeiro ambiente</div><div class="value">Partial</div></div>
@@ -98,8 +98,7 @@
 
     <div class="section">
       <h2><span class="n">2</span>Justificativa</h2>
-      <p>A release <b>Teste 5</b> cria o campo personalizado <code>Account.SmartDeploy__c</code> no objeto Account, conforme o manifesto (<code>package.xml</code>, API 67.0). O campo passa a existir no ambiente e fica acessível a todos os perfis por meio da etapa pós-deploy prevista no plano de execução.</p>
-      <p>Se a mudança não for feita, o campo não existirá nos ambientes seguintes da rota <b>SumUp Promotion</b> e qualquer processo ou configuração que dependa dele ficará sem o dado. O manifesto não registra o motivo de negócio; o solicitante deve complementar esta seção caso haja um.</p>
+      <p class="note"><i>Por que a mudança é necessária, que problema resolve ou que ganho traz, e o que acontece se ela não for feita.</i></p>
     </div>
 
     <div class="section">
@@ -122,13 +121,7 @@
 
     <div class="section">
       <h2><span class="n">5</span>Análise de impacto</h2>
-      <ul>
-        <li><b>Componentes:</b> apenas 1 componente, adição de um <code>CustomField</code> em Account. Não há exclusões nem alteração de componentes existentes.</li>
-        <li><b>Dados e processos:</b> o campo é novo e nasce vazio, portanto não altera registros existentes nem o comportamento de processos atuais. Nenhuma automação, validação ou layout consta no manifesto.</li>
-        <li><b>Usuários:</b> o acesso ao campo é concedido a todos os perfis após o deploy; usuários de todos os perfis com acesso a Account poderão ver o campo.</li>
-        <li><b>Integrações:</b> o manifesto não inclui integrações. Integrações que leiam Account sem listar campos explicitamente podem passar a recebê-lo; convém conferir.</li>
-        <li><b>Dependências:</b> nenhuma identificada no manifesto. Verificar se há outras mudanças em andamento sobre Account no projeto SumUp &lt;-&gt; Visum.</li>
-      </ul>
+      <p class="note"><i>Processos, áreas, integrações e usuários afetados, e dependências com outras mudanças em andamento.</i></p>
     </div>
 
     <div class="section">
@@ -153,23 +146,15 @@
 
     <div class="section">
       <h2><span class="n">9</span>Plano de retorno</h2>
-      <p><b>Critério de acionamento:</b> falha no deploy do campo, falha na concessão de acesso aos perfis, ou erro observado em Account que seja atribuível ao novo campo.</p>
-      <p><b>Passos:</b></p>
-      <ol>
-        <li>Remover a permissão de acesso ao campo <code>Account.SmartDeploy__c</code> dos perfis.</li>
-        <li>Excluir o campo <code>Account.SmartDeploy__c</code> do ambiente (via destructiveChanges ou pela Configuração). Como o campo é novo e vazio, não há perda de dados anteriores à mudança.</li>
-        <li>Confirmar que o campo não aparece mais em Account e que o objeto funciona normalmente.</li>
-      </ol>
-      <p><b>Atenção:</b> uma exclusão não volta com um novo deploy, e os dados gravados no campo após a implantação serão perdidos; se houver uso relevante, exportá-los antes.</p>
-      <p><b>Tempo estimado:</b> cerca de 15 minutos. <b>Quem decide:</b> o responsável técnico, com ciência do gestor da área.</p>
+      <p class="note"><i>Critério para acionar o retorno, passos para desfazer a mudança, tempo estimado e quem decide.</i></p>
     </div>
 
     <div class="section">
       <h2><span class="n">10</span>Janela e comunicação</h2>
       <div class="window">
-        <div class="class-box"><div class="label">Data e horário</div><div class="value">A definir pelo solicitante, preferencialmente fora do horário comercial</div></div>
-        <div class="class-box"><div class="label">Duração estimada</div><div class="value">Cerca de 15 minutos, sem indisponibilidade prevista</div></div>
-        <div class="class-box"><div class="label">Quem avisar</div><div class="value">Gestor da área, responsável técnico e usuários de Account do projeto SumUp &lt;-&gt; Visum, antes e após a implantação</div></div>
+        <div class="class-box"><div class="label">Data e horário</div><div class="value">____</div></div>
+        <div class="class-box"><div class="label">Duração estimada</div><div class="value">____</div></div>
+        <div class="class-box"><div class="label">Quem avisar</div><div class="value">____</div></div>
       </div>
     </div>
 
@@ -186,7 +171,7 @@
   </div>
 
   <div class="footer">
-    <span>Gerado pelo Smart Deploy em 10/5/2026</span>
+    <span>Gerado pelo Smart Deploy em 10/6/2026</span>
     <span>Teste 5</span>
   </div>
 
