@@ -98,7 +98,8 @@
 
     <div class="section">
       <h2><span class="n">2</span>Justificativa</h2>
-      <p class="note"><i>Por que a mudança é necessária, que problema resolve ou que ganho traz, e o que acontece se ela não for feita.</i></p>
+      <p>A release Teste 6 leva 5 componentes (Flow, PermissionSet, Report, ValidationRule e Workflow) pela rota SumUp Promotion, validando o fluxo de promoção entre ambientes do projeto SumUp &lt;-&gt; Visum. Ela também mantém alinhados os componentes de Case (fluxo de revisão de conta e regra de conclusão de instalação), Shipping__c (workflow), o relatório Active_Accounts e o acesso Create_Reports.</p>
+      <p>Se a mudança não for feita, o teste da rota não é concluído e os ambientes seguintes permanecem sem a versão validada desses componentes.</p>
     </div>
 
     <div class="section">
@@ -121,7 +122,12 @@
 
     <div class="section">
       <h2><span class="n">5</span>Análise de impacto</h2>
-      <p class="note"><i>Processos, áreas, integrações e usuários afetados, e dependências com outras mudanças em andamento.</i></p>
+      <ul>
+        <li><b>Processos:</b> revisão de contas em Case (Flow <code>Case_Account_Review_New</code>), conclusão de instalação em Case (regra <code>Install_case_completion_requires_Step_5</code>) e automações de Shipping__c (Workflow).</li>
+        <li><b>Usuários:</b> quem usa o permission set <code>Create_Reports</code> e o relatório <code>Active_Accounts</code>.</li>
+        <li><b>Estado atual:</b> Flow, PermissionSet, ValidationRule e Workflow constam como Unchanged no ambiente; o Report não foi comparado. Não há exclusões.</li>
+        <li><b>Integrações e dependências:</b> nenhuma identificada no manifesto; confirmar se há outras mudanças em andamento nos mesmos objetos (Case e Shipping__c).</li>
+      </ul>
     </div>
 
     <div class="section">
@@ -146,15 +152,20 @@
 
     <div class="section">
       <h2><span class="n">9</span>Plano de retorno</h2>
-      <p class="note"><i>Critério para acionar o retorno, passos para desfazer a mudança, tempo estimado e quem decide.</i></p>
+      <ul>
+        <li><b>Critério:</b> falha no deploy, ou erro nos componentes na validação pós-implantação (Flow com falha, regra de validação bloqueando Cases indevidamente, acesso ao relatório ou permission set incorreto).</li>
+        <li><b>Passos:</b> publicar novamente no ambiente a versão anterior dos 5 componentes, a partir do backup/versão de origem; desativar temporariamente o Flow e a regra de validação, se necessário, para destravar os usuários. Como não há exclusões, não há componente a recriar.</li>
+        <li><b>Tempo estimado:</b> 30 minutos.</li>
+        <li><b>Quem decide:</b> responsável técnico, com ciência do solicitante.</li>
+      </ul>
     </div>
 
     <div class="section">
       <h2><span class="n">10</span>Janela e comunicação</h2>
       <div class="window">
-        <div class="class-box"><div class="label">Data e horário</div><div class="value">____</div></div>
-        <div class="class-box"><div class="label">Duração estimada</div><div class="value">____</div></div>
-        <div class="class-box"><div class="label">Quem avisar</div><div class="value">____</div></div>
+        <div class="class-box"><div class="label">Data e horário</div><div class="value">A definir com o CAB, fora do horário comercial</div></div>
+        <div class="class-box"><div class="label">Duração estimada</div><div class="value">30 a 60 minutos</div></div>
+        <div class="class-box"><div class="label">Quem avisar</div><div class="value">Usuários de Case e Shipping, gestor da área e CAB</div></div>
       </div>
     </div>
 
