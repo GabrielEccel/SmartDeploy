@@ -98,7 +98,7 @@
 
     <div class="section">
       <h2><span class="n">2</span>Justificativa</h2>
-      <p class="note"><i>Por que a mudança é necessária, que problema resolve ou que ganho traz, e o que acontece se ela não for feita.</i></p>
+      <p>A release leva o processo de aprovação <code>Account.NMQ_Approval_Request_v4</code> (objeto Account) pela rota SumUp Promotion, com o objetivo de testar o fluxo de rejeição de uma solicitação de aprovação, conforme o resumo (“Testing Reject”). Sem a mudança, o comportamento de rejeição desse processo não é exercitado nem validado na rota antes de uma promoção real.</p>
     </div>
 
     <div class="section">
@@ -121,7 +121,7 @@
 
     <div class="section">
       <h2><span class="n">5</span>Análise de impacto</h2>
-      <p class="note"><i>Processos, áreas, integrações e usuários afetados, e dependências com outras mudanças em andamento.</i></p>
+      <ul><li><b>Processo afetado:</b> aprovação de Account <code>NMQ_Approval_Request_v4</code>, único componente do pacote (API 67.0). Usuários que enviam ou aprovam solicitações desse processo são os potencialmente impactados.</li><li><b>Alteração real no ambiente:</b> o componente consta como <i>Unchanged</i>, ou seja, o conteúdo já é idêntico ao do ambiente de destino; não há mudança funcional esperada.</li><li><b>Sem exclusões:</b> nenhum componente é removido, e não há etapas manuais antes ou depois do deploy.</li><li><b>Integrações e dependências:</b> o manifesto não traz outros componentes (campos, e-mail templates, filas, perfis). Dependências com outras mudanças em andamento devem ser confirmadas pelo solicitante.</li></ul>
     </div>
 
     <div class="section">
@@ -146,15 +146,15 @@
 
     <div class="section">
       <h2><span class="n">9</span>Plano de retorno</h2>
-      <p class="note"><i>Critério para acionar o retorno, passos para desfazer a mudança, tempo estimado e quem decide.</i></p>
+      <ul><li><b>Critério de acionamento:</b> falha no deploy, ou comportamento inesperado no envio, aprovação ou rejeição de solicitações do processo <code>NMQ_Approval_Request_v4</code> após a publicação.</li><li><b>Passos:</b> reimplantar no ambiente a versão anterior de <code>Account.NMQ_Approval_Request_v4</code> (do controle de versão ou de um backup retrieve feito antes do deploy); se necessário, desativar o processo de aprovação para interromper novas solicitações. Como não há exclusões nem etapas manuais, nada mais precisa ser desfeito.</li><li><b>Tempo estimado:</b> curto, equivalente a um novo deploy de um único componente.</li><li><b>Quem decide:</b> o responsável técnico, com ciência do solicitante.</li></ul>
     </div>
 
     <div class="section">
       <h2><span class="n">10</span>Janela e comunicação</h2>
       <div class="window">
-        <div class="class-box"><div class="label">Data e horário</div><div class="value">____</div></div>
-        <div class="class-box"><div class="label">Duração estimada</div><div class="value">____</div></div>
-        <div class="class-box"><div class="label">Quem avisar</div><div class="value">____</div></div>
+        <div class="class-box"><div class="label">Data e horário</div><div class="value">A definir pelo solicitante (fora do horário de pico de aprovações)</div></div>
+        <div class="class-box"><div class="label">Duração estimada</div><div class="value">Curta (1 componente); sem indisponibilidade prevista</div></div>
+        <div class="class-box"><div class="label">Quem avisar</div><div class="value">Usuários e aprovadores do processo de aprovação de Account; administradores Salesforce</div></div>
       </div>
     </div>
 
