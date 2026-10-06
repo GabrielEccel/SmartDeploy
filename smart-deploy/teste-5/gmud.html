@@ -98,7 +98,8 @@
 
     <div class="section">
       <h2><span class="n">2</span>Justificativa</h2>
-      <p class="note"><i>Por que a mudança é necessária, que problema resolve ou que ganho traz, e o que acontece se ela não for feita.</i></p>
+      <p>A release leva um único componente novo, o campo personalizado <code>Account.SmartDeploy__c</code>, ao ambiente da rota <b>SumUp Promotion</b> (projeto SumUp &lt;-&gt; Visum). O campo passa a existir no objeto Account e fica acessível a todos os perfis, conforme o passo pós-deploy.</p>
+      <p>Sem a mudança, o campo não existe no ambiente de destino, o que o deixa diferente do ambiente de origem e impede seu uso por processos, layouts e integrações que dependam dele.</p>
     </div>
 
     <div class="section">
@@ -121,7 +122,12 @@
 
     <div class="section">
       <h2><span class="n">5</span>Análise de impacto</h2>
-      <p class="note"><i>Processos, áreas, integrações e usuários afetados, e dependências com outras mudanças em andamento.</i></p>
+      <ul>
+        <li><b>Metadados:</b> apenas um <code>CustomField</code> adicionado (<code>Account.SmartDeploy__c</code>), sem alteração nem exclusão de componentes existentes. O manifesto (API 67.0) não inclui código, fluxos, layouts nem permissões.</li>
+        <li><b>Dados:</b> o campo é novo, portanto nenhum dado existente é modificado; os registros de Account ficam com o campo vazio.</li>
+        <li><b>Usuários:</b> todos os perfis recebem acesso ao campo, que só fica visível onde for adicionado a um layout.</li>
+        <li><b>Integrações e dependências:</b> nenhuma identificada no manifesto. Confirmar se alguma integração do projeto SumUp &lt;-&gt; Visum passará a ler ou gravar o campo e se há outra mudança em andamento no objeto Account.</li>
+      </ul>
     </div>
 
     <div class="section">
@@ -146,15 +152,21 @@
 
     <div class="section">
       <h2><span class="n">9</span>Plano de retorno</h2>
-      <p class="note"><i>Critério para acionar o retorno, passos para desfazer a mudança, tempo estimado e quem decide.</i></p>
+      <ul>
+        <li><b>Critério:</b> acionar o retorno se o deploy falhar parcialmente ou se o novo campo causar erro em processos de Account (validações, automações, integrações).</li>
+        <li><b>Passos:</b> (1) remover o acesso ao campo dos perfis, revertendo o passo pós-deploy; (2) excluir <code>Account.SmartDeploy__c</code> por destructiveChanges ou manualmente em Setup; (3) conferir que o campo saiu de layouts e relatórios.</li>
+        <li><b>Atenção:</b> ao excluir um campo personalizado, os dados gravados nele são perdidos após o período de lixeira. Por ser um campo novo, a perda esperada é nula, mas confirme que ninguém o preencheu antes de excluir.</li>
+        <li><b>Tempo estimado:</b> cerca de 15 a 30 minutos.</li>
+        <li><b>Decisão:</b> responsável técnico, com ciência do solicitante (Gabriel Eccel).</li>
+      </ul>
     </div>
 
     <div class="section">
       <h2><span class="n">10</span>Janela e comunicação</h2>
       <div class="window">
-        <div class="class-box"><div class="label">Data e horário</div><div class="value">____</div></div>
-        <div class="class-box"><div class="label">Duração estimada</div><div class="value">____</div></div>
-        <div class="class-box"><div class="label">Quem avisar</div><div class="value">____</div></div>
+        <div class="class-box"><div class="label">Data e horário</div><div class="value">A definir pelo solicitante, preferencialmente fora do horário comercial</div></div>
+        <div class="class-box"><div class="label">Duração estimada</div><div class="value">Cerca de 15 a 30 minutos, sem indisponibilidade esperada</div></div>
+        <div class="class-box"><div class="label">Quem avisar</div><div class="value">Solicitante (Gabriel Eccel), responsável técnico, gestor da área e usuários de Account do projeto SumUp &lt;-&gt; Visum</div></div>
       </div>
     </div>
 
