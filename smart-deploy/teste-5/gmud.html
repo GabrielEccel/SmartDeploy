@@ -98,8 +98,7 @@
 
     <div class="section">
       <h2><span class="n">2</span>Justificativa</h2>
-      <p>A release cria o campo personalizado <code>Account.SmartDeploy__c</code> no objeto Account e o promove pela rota <b>SumUp Promotion</b> do projeto SumUp &lt;-&gt; Visum. O campo precisa existir no ambiente de destino para que o que depende dele (layouts, relatórios, integrações ou automações que o usem) funcione de forma consistente com o ambiente de origem.</p>
-      <p>Se a mudança não for feita, os ambientes ficam divergentes: qualquer componente ou integração que referencie o campo falha ou fica sem dado no destino. O manifesto traz apenas esse componente; o motivo de negócio específico deve ser confirmado pelo solicitante.</p>
+      <p class="note"><i>Por que a mudança é necessária, que problema resolve ou que ganho traz, e o que acontece se ela não for feita.</i></p>
     </div>
 
     <div class="section">
@@ -122,12 +121,7 @@
 
     <div class="section">
       <h2><span class="n">5</span>Análise de impacto</h2>
-      <ul>
-        <li><b>Escopo:</b> 1 componente (<code>CustomField</code> <code>Account.SmartDeploy__c</code>), apenas adição. Não há exclusões nem alteração de componentes existentes.</li>
-        <li><b>Usuários:</b> o passo pós-deploy concede acesso ao campo a todos os perfis; assim, todos os usuários com acesso ao objeto Account poderão ver e editar o campo, se ele for incluído em um layout.</li>
-        <li><b>Processos e integrações:</b> o campo é novo e vazio, portanto não altera registros existentes nem processos atuais. Integrações que listam todos os campos de Account (por exemplo, consultas dinâmicas ou mapeamentos automáticos) podem passar a enxergá-lo.</li>
-        <li><b>Dependências:</b> o manifesto não inclui layouts, permission sets nem automações. Verificar se há outras mudanças em andamento no objeto Account no mesmo período.</li>
-      </ul>
+      <p class="note"><i>Processos, áreas, integrações e usuários afetados, e dependências com outras mudanças em andamento.</i></p>
     </div>
 
     <div class="section">
@@ -152,22 +146,15 @@
 
     <div class="section">
       <h2><span class="n">9</span>Plano de retorno</h2>
-      <p><b>Critério de acionamento:</b> erro no deploy ou na concessão de acesso, ou efeito inesperado em processos ou integrações de Account após a publicação.</p>
-      <ol>
-        <li>Remover o acesso ao campo dos perfis, se ainda for necessário mantê-lo temporariamente.</li>
-        <li>Excluir <code>Account.SmartDeploy__c</code> do ambiente por deploy de <code>destructiveChanges.xml</code> contendo o <code>CustomField</code> (ou pela tela de configuração do objeto).</li>
-        <li>Confirmar que o campo não aparece mais em Account e que nenhum componente o referencia.</li>
-      </ol>
-      <p><b>Atenção:</b> a exclusão apaga os dados gravados no campo. Se ele já tiver sido preenchido, exportar os valores antes. O campo excluído fica na lixeira por até 15 dias e pode ser restaurado nesse prazo.</p>
-      <p><b>Tempo estimado:</b> cerca de 15 minutos. <b>Decisão:</b> responsável técnico, com ciência do solicitante (Gabriel Eccel).</p>
+      <p class="note"><i>Critério para acionar o retorno, passos para desfazer a mudança, tempo estimado e quem decide.</i></p>
     </div>
 
     <div class="section">
       <h2><span class="n">10</span>Janela e comunicação</h2>
       <div class="window">
-        <div class="class-box"><div class="label">Data e horário</div><div class="value">A definir pelo solicitante e aprovado pelo CAB; preferencialmente fora do horário comercial</div></div>
-        <div class="class-box"><div class="label">Duração estimada</div><div class="value">Cerca de 15 minutos (deploy de 1 campo + concessão de acesso aos perfis)</div></div>
-        <div class="class-box"><div class="label">Quem avisar</div><div class="value">Solicitante (Gabriel Eccel), responsável técnico, gestor da área e usuários de Account</div></div>
+        <div class="class-box"><div class="label">Data e horário</div><div class="value">____</div></div>
+        <div class="class-box"><div class="label">Duração estimada</div><div class="value">____</div></div>
+        <div class="class-box"><div class="label">Quem avisar</div><div class="value">____</div></div>
       </div>
     </div>
 
