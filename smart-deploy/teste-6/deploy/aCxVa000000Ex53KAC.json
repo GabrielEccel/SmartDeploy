@@ -1,0 +1,228 @@
+{
+  "status": 0,
+  "result": {
+    "checkOnly": true,
+    "completedDate": "2026-10-06T17:48:55.000Z",
+    "createdBy": "005Vm00000DnDuH",
+    "createdByName": "Gabriel Eccel",
+    "createdDate": "2026-10-06T17:48:38.000Z",
+    "details": {
+      "componentSuccesses": [
+        {
+          "changed": true,
+          "componentType": "ValidationRule",
+          "created": false,
+          "createdDate": "2026-10-06T17:48:54.000Z",
+          "deleted": false,
+          "fileName": "zip/objects/Case.object",
+          "fullName": "Case.Install_case_completion_requires_Step_5",
+          "id": "03d0y000000BCqQAAW",
+          "success": true
+        },
+        {
+          "changed": false,
+          "componentType": "ReportFolder",
+          "created": false,
+          "createdDate": "2026-10-06T17:48:55.000Z",
+          "deleted": false,
+          "fileName": "zip/reports/Active_Accounts-meta.xml",
+          "fullName": "Active_Accounts",
+          "id": "00lVm000001vf2fIAA",
+          "success": true
+        },
+        {
+          "changed": false,
+          "componentType": "Flow",
+          "created": false,
+          "createdDate": "2026-10-06T17:48:55.000Z",
+          "deleted": false,
+          "fileName": "zip/flows/Case_Account_Review_New.flow",
+          "fullName": "Case_Account_Review_New",
+          "id": "301Vm00001Cq7LWIAZ",
+          "success": true
+        },
+        {
+          "changed": false,
+          "componentType": "Workflow",
+          "created": false,
+          "createdDate": "2026-10-06T17:48:55.000Z",
+          "deleted": false,
+          "fileName": "zip/workflows/Shipping__c.workflow",
+          "fullName": "Shipping__c",
+          "id": "01IE0000000CC5KMAW",
+          "success": true
+        },
+        {
+          "changed": false,
+          "componentType": "WorkflowFieldUpdate",
+          "created": false,
+          "createdDate": "2026-10-06T17:48:55.000Z",
+          "deleted": false,
+          "fileName": "zip/workflows/Shipping__c.workflow",
+          "fullName": "Shipping__c.Install_Kits_to_Null",
+          "id": "04YE0000000DKy5MAG",
+          "success": true
+        },
+        {
+          "changed": false,
+          "componentType": "WorkflowFieldUpdate",
+          "created": false,
+          "createdDate": "2026-10-06T17:48:55.000Z",
+          "deleted": false,
+          "fileName": "zip/workflows/Shipping__c.workflow",
+          "fullName": "Shipping__c.Keytags_to_Null",
+          "id": "04YE0000000DKyAMAW",
+          "success": true
+        },
+        {
+          "changed": false,
+          "componentType": "WorkflowFieldUpdate",
+          "created": false,
+          "createdDate": "2026-10-06T17:48:55.000Z",
+          "deleted": false,
+          "fileName": "zip/workflows/Shipping__c.workflow",
+          "fullName": "Shipping__c.Restaurant_Cards_to_Null",
+          "id": "04YE0000000DKyKMAW",
+          "success": true
+        },
+        {
+          "changed": false,
+          "componentType": "WorkflowFieldUpdate",
+          "created": false,
+          "createdDate": "2026-10-06T17:48:55.000Z",
+          "deleted": false,
+          "fileName": "zip/workflows/Shipping__c.workflow",
+          "fullName": "Shipping__c.Scanners_to_Null",
+          "id": "04YE0000000DKyPMAW",
+          "success": true
+        },
+        {
+          "changed": false,
+          "componentType": "WorkflowFieldUpdate",
+          "created": false,
+          "createdDate": "2026-10-06T17:48:55.000Z",
+          "deleted": false,
+          "fileName": "zip/workflows/Shipping__c.workflow",
+          "fullName": "Shipping__c.Wallets_to_Null",
+          "id": "04YE0000000DKyFMAW",
+          "success": true
+        },
+        {
+          "changed": false,
+          "componentType": "PermissionSet",
+          "created": false,
+          "createdDate": "2026-10-06T17:48:55.000Z",
+          "deleted": false,
+          "fileName": "zip/permissionsets/Create_Reports.permissionset",
+          "fullName": "Create_Reports",
+          "id": "0PSVm0000003GGLOA2",
+          "success": true
+        },
+        {
+          "changed": true,
+          "componentType": "",
+          "created": false,
+          "createdDate": "2026-10-06T17:48:55.000Z",
+          "deleted": false,
+          "fileName": "zip/package.xml",
+          "fullName": "package.xml",
+          "success": true
+        }
+      ],
+      "runTestResult": {
+        "numFailures": 0,
+        "numTestsRun": 0,
+        "totalTime": 0,
+        "codeCoverage": [],
+        "codeCoverageWarnings": [],
+        "failures": [],
+        "flowCoverage": [],
+        "flowCoverageWarnings": [],
+        "successes": []
+      },
+      "componentFailures": []
+    },
+    "done": true,
+    "id": "0AfVa00000DdDSXKA3",
+    "ignoreWarnings": false,
+    "lastModifiedDate": "2026-10-06T17:48:55.000Z",
+    "numberComponentErrors": 0,
+    "numberComponentsDeployed": 10,
+    "numberComponentsTotal": 10,
+    "numberFiles": "12",
+    "numberTestErrors": 0,
+    "numberTestsCompleted": 0,
+    "numberTestsTotal": 0,
+    "rollbackOnError": true,
+    "runTestsEnabled": false,
+    "startDate": "2026-10-06T17:48:39.000Z",
+    "status": "Succeeded",
+    "success": true,
+    "zipSize": 10361,
+    "files": [
+      {
+        "fullName": "Case_Account_Review_New",
+        "type": "Flow",
+        "state": "Unchanged",
+        "filePath": "flows/Case_Account_Review_New.flow"
+      },
+      {
+        "fullName": "Create_Reports",
+        "type": "PermissionSet",
+        "state": "Unchanged",
+        "filePath": "permissionsets/Create_Reports.permissionset"
+      },
+      {
+        "fullName": "Active_Accounts",
+        "type": "ReportFolder",
+        "state": "Unchanged",
+        "filePath": "reports/Active_Accounts-meta.xml"
+      },
+      {
+        "fullName": "Case.Install_case_completion_requires_Step_5",
+        "type": "ValidationRule",
+        "state": "Changed",
+        "filePath": "objects/Case.object"
+      },
+      {
+        "fullName": "Shipping__c",
+        "type": "Workflow",
+        "state": "Unchanged",
+        "filePath": "workflows/Shipping__c.workflow"
+      },
+      {
+        "fullName": "Shipping__c.Install_Kits_to_Null",
+        "type": "WorkflowFieldUpdate",
+        "state": "Unchanged",
+        "filePath": "workflows/Shipping__c.workflow"
+      },
+      {
+        "fullName": "Shipping__c.Keytags_to_Null",
+        "type": "WorkflowFieldUpdate",
+        "state": "Unchanged",
+        "filePath": "workflows/Shipping__c.workflow"
+      },
+      {
+        "fullName": "Shipping__c.Restaurant_Cards_to_Null",
+        "type": "WorkflowFieldUpdate",
+        "state": "Unchanged",
+        "filePath": "workflows/Shipping__c.workflow"
+      },
+      {
+        "fullName": "Shipping__c.Scanners_to_Null",
+        "type": "WorkflowFieldUpdate",
+        "state": "Unchanged",
+        "filePath": "workflows/Shipping__c.workflow"
+      },
+      {
+        "fullName": "Shipping__c.Wallets_to_Null",
+        "type": "WorkflowFieldUpdate",
+        "state": "Unchanged",
+        "filePath": "workflows/Shipping__c.workflow"
+      }
+    ],
+    "zipFileCount": 6,
+    "deployUrl": "https://fivestarsloyalty--partial.sandbox.my.salesforce.com//lightning/setup/DeployStatus/page?address=%2Fchangemgmt%2FmonitorDeploymentsDetails.apexp%3FasyncId%3D0AfVa00000DdDSXKA3%26retURL%3D%252Fchangemgmt%252FmonitorDeployment.apexp"
+  },
+  "warnings": []
+}
