@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>Case_Account_Review_New</members>
+        <name>Flow</name>
+    </types>
+    <types>
+        <members>Create_Reports</members>
+        <name>PermissionSet</name>
+    </types>
+    <types>
+        <members>Active_Accounts</members>
+        <name>Report</name>
+    </types>
+    <types>
+        <members>Case.Install_case_completion_requires_Step_5</members>
+        <name>ValidationRule</name>
+    </types>
+    <types>
+        <members>Shipping__c</members>
+        <name>Workflow</name>
+    </types>
+    <version>67.0</version>
+</Package>
